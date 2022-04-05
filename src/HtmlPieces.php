@@ -281,6 +281,10 @@ class HtmlPieces
                                         continue;
                                     }
 
+                                    $rowText = $dom->find($sectionRow, 'td.result_text');
+                                    $rowText = preg_match_all('~\b\d{4}\b\+?~', $rowText, $matches);
+                                    $row["year"] = end($matches[0]);
+
                                     $row["image"] = $dom->find($sectionRow, 'td.primary_photo img')->src;
                                     if (preg_match('/@/', $row["image"]))
                                     {

@@ -80,6 +80,7 @@ class ImdbTest extends TestCase {
 
         $this->assertEquals('Interstellar', $search['titles'][0]['title']);
         $this->assertEquals('tt0816692', $search['titles'][0]['id']);
+        $this->assertEquals('2014', $search['titles'][0]['year']);
 
         $search_2 = $imdb->search('The Life and Death of Colonel Blimp');
 
