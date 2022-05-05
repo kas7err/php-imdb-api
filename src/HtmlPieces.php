@@ -39,7 +39,7 @@ class HtmlPieces
 
                 if ($this->count($allGenres)) {
                     foreach ($allGenres as $genre) {
-                        $genres[] = $genre->find('span')->text();
+                        $genres[] = $genre->find('li')->text();
                     }
                 }
 
