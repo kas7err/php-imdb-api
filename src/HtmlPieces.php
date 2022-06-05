@@ -47,7 +47,7 @@ class HtmlPieces
                 break;
 
             case "year":
-                $patterns = ["section section div div div ul li a", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
+                $patterns = ["section section div div div ul li a[href*='releaseinfo']", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
                 $year = $this->findMatchInPatterns($dom, $page, $patterns);
 
                 // Detect OLD IMDB + TV show
