@@ -223,7 +223,7 @@ class HtmlPieces
                         }
     
                         // Character
-                        $characterLink = $castRow->find('span[data-testid=cast-item-characters-with-as]');
+                        $characterLink = $castRow->find('a[data-testid="cast-item-characters-link] span');
                         if ($this->count($characterLink)) {
                             $actor["character"] = $characterLink->text;
                         }
@@ -298,6 +298,50 @@ class HtmlPieces
                                 }
                             }
                         }
+                    }
+                }
+                return $response;
+                break;
+            case "shows":
+                $response = [];
+                $showsTable = $dom->find($page, ".lister-list tr");
+                if ($this->count($showsTable) > 0)
+                {
+                    foreach ($showsTable as $row)
+                    {
+                        $show = [];
+
+                        $titleTag = $dom->find($row, 'td.titleColumn a');
+
+                        $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
+                        if ($show["id"] == "") {
+                            continue;
+                        }
+
+                        $show["title"] = $titleTag->text;
+                        if ($show["title"] == "") {
+                            continue;
+                        }
+
+                        $yearTag = $dom->find($row, 'td.titleColumn span');
+                        $show["year"] = str_replace(['(', ')', ' '], '', $yearTag->text);
+                        if ($show["year"] == "") {
+                            continue;
+                        }
+
+                        $ratingTag = $dom->find($row, 'td.imdbRating strong');
+                        $show["rating"] = $ratingTag->text;
+                        if ($show["rating"] == "") {
+                            continue;
+                        }
+
+                        $posterTag = $dom->find($row, 'td.posterColumn a > img');
+                        $show["poster"] = $posterTag->getAttribute("src");
+                        if ($show["poster"] == "") {
+                            continue;
+                        }
+                        
+                        array_push($response, $show);
                     }
                 }
                 return $response;

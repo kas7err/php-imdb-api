@@ -11,7 +11,8 @@ class ImdbTest extends TestCase {
     {
         $imdb = new Imdb;
         $film = $imdb->film('tt0816692', [ 'cache' => false ]);
-
+        // var_dump($film['cast']);
+        // die();
         $this->assertEquals('tt0816692', $film['id']);
         $this->assertEquals('Interstellar', $film['title']);
         $this->assertEquals('Adventure, Drama, Sci-Fi', $film['genre']);
@@ -21,7 +22,7 @@ class ImdbTest extends TestCase {
         $this->assertEquals('8.6', $film['rating']);
         $this->assertEquals('vi1586278169', $film['trailer']["id"]);
         $this->assertEquals('https://www.imdb.com/video/vi1586278169', $film['trailer']["link"]);
-        $this->assertContains($film['cast'][0]["character"], ['as Cooper']);
+        $this->assertContains($film['cast'][0]["character"], ['Cooper']);
         $this->assertContains($film['cast'][0]["actor"], ['Matthew McConaughey']);
         $this->assertContains($film['cast'][0]["actor_id"], ['nm0000190']);
         $this->assertContains($film['cast'][0]["avatar"], ['https://m.media-amazon.com/images/M/MV5BMTg0MDc3ODUwOV5BMl5BanBnXkFtZTcwMTk2NjY4Nw@@._V1_QL75_UX140_CR0,21,140,140_.jpg']);
@@ -41,7 +42,7 @@ class ImdbTest extends TestCase {
         $this->assertEquals('8.6', $film['rating']);
         $this->assertEquals('vi1586278169', $film['trailer']["id"]);
         $this->assertEquals('https://www.imdb.com/video/vi1586278169', $film['trailer']["link"]);
-        $this->assertContains($film['cast'][0]["character"], ['as Cooper']);
+        $this->assertContains($film['cast'][0]["character"], ['Cooper']);
         $this->assertContains($film['cast'][0]["actor"], ['Matthew McConaughey']);
         $this->assertContains($film['cast'][0]["actor_id"], ['nm0000190']);
         $this->assertContains($film['cast'][0]["avatar"], ['https://m.media-amazon.com/images/M/MV5BMTg0MDc3ODUwOV5BMl5BanBnXkFtZTcwMTk2NjY4Nw@@._V1_QL75_UX140_CR0,21,140,140_.jpg']);
@@ -107,6 +108,17 @@ class ImdbTest extends TestCase {
         $this->assertEquals($emptyResponse['film'], $film);
         $this->assertEquals($emptyResponse['film_search'], $film_search);
         $this->assertEquals($emptyResponse['search'], $search);
+    }
+
+    public function testChart()
+    {
+        $imdb = new Imdb;
+        $chart = $imdb->chart('movies', [ 'cache' => false ]);
+        $this->assertEquals('The Shawshank Redemption', $chart['shows'][0]['title']);
+        $this->assertEquals('1994', $chart['shows'][0]['year']);
+        $this->assertEquals('9.2', $chart['shows'][0]['rating']);
+        $this->assertEquals('tt0111161', $chart['shows'][0]['id']);
+        $this->assertEquals('https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY67_CR0,0,45,67_AL_.jpg', $chart['shows'][0]['poster']);
     }
 
 }

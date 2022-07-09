@@ -163,4 +163,36 @@ class Imdb
         return $response->return();
     }
 
+    public function chart(string $type, array $options = []): array
+    {
+        //  Combine user options with default ones
+        $options = $this->populateOptions($options);
+
+        //  Initiate response object
+        // -> handles what the api returns
+        $response = new Response;
+
+        //  Initiate dom object
+        //  -> handles page scraping
+        $dom = new Dom;
+
+        //  Initiate html-pieces object
+        //  -> handles finding specific content from the dom
+        $htmlPieces = new HtmlPieces;
+
+        $types = [
+            'movies' => 'https://www.imdb.com/chart/top/',
+            'series' => 'https://www.imdb.com/chart/toptv',
+            'popular-movies' => 'https://www.imdb.com/chart/moviemeter',
+            'popular-series' => 'https://www.imdb.com/chart/tvmeter',
+        ];
+
+        //  Load imdb chart page and parse the dom
+        $page = $dom->fetch($types[$type], $options);
+        
+        //  Add all search data to response $store
+        $response->add("shows", $htmlPieces->get($page, "shows"));
+        return $response->return();
+    }
+
 }

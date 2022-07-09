@@ -92,6 +92,10 @@ class Response
                     "companies" => []
                 ];
                 break;
+
+            case "chart":
+                $response = ["shows" => []];
+                break;
         }
         return $response;
     }
