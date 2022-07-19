@@ -123,6 +123,7 @@ class ImdbTest extends TestCase {
         $this->assertEquals('The Shawshank Redemption', $chart['shows'][0]['title']);
         $this->assertEquals('1994', $chart['shows'][0]['year']);
         $this->assertEquals('9.2', $chart['shows'][0]['rating']);
+        $this->assertEquals('2,611,818', $chart['shows'][0]['rating_votes']);
         $this->assertEquals('tt0111161', $chart['shows'][0]['id']);
         $this->assertEquals('https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY67_CR0,0,45,67_AL_.jpg', $chart['shows'][0]['poster']);
     }
