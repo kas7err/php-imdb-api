@@ -60,14 +60,14 @@ class HtmlPieces
                 $year = $this->findMatchInPatterns($dom, $page, $patterns);
 
                 // Detect OLD IMDB + TV show
-                if ($this->count($year) > 4) {
-                    // Extract year from text
-                    // \d{4}.\d{4}
-                    $matchYear = preg_replace("/[^\d{4}--\d{4}]/", "", $year);
-                    if ($this->count($matchYear) > 0) {
-                        $year = $matchYear;
-                    }
-                }
+                // if ($this->count($year) > 4) {
+                //     // Extract year from text
+                //     // \d{4}.\d{4}
+                //     $matchYear = preg_replace("/[^\d{4}--\d{4}]/", "", $year);
+                //     if ($this->count($matchYear) > 0) {
+                //         $year = $matchYear;
+                //     }
+                // }
 
                 return $this->strClean($year);
                 break;
