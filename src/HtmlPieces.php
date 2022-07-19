@@ -327,23 +327,28 @@ class HtmlPieces
                         $show = [];
 
                         $titleTag = $dom->find($row, 'td.titleColumn a');
-
-                        $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
-
-                        $show["title"] = $titleTag->text;
+                        if ($this->count($titleTag) > 0) {
+                            $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
+                            $show["title"] = $titleTag->text;
+                        }
 
                         $yearTag = $dom->find($row, 'td.titleColumn span');
-                        $show["year"] = str_replace(['(', ')', ' '], '', $yearTag->text);
+                        if ($this->count($yearTag) > 0) {
+                            $show["year"] = str_replace(['(', ')', ' '], '', $yearTag->text);
+                        }
                         
                         $ratingTag = $dom->find($row, 'td.imdbRating strong');
-                        $show["rating"] = $ratingTag->text;
-
-                        $show["rating_votes"] = $ratingTag->getAttribute("title");
-                        preg_match_all('/([1-9]\d*|0)(,\d+)?/', $show["rating_votes"], $foundMatches);
-                        $show["rating_votes"] = implode(',', array_slice($foundMatches[0], -2, 2, true));
+                        if ($this->count($ratingTag) > 0) {
+                            $show["rating"] = $ratingTag->text;
+                            $show["rating_votes"] = $ratingTag->getAttribute("title");
+                            preg_match_all('/([1-9]\d*|0)(,\d+)?/', $show["rating_votes"], $foundMatches);
+                            $show["rating_votes"] = implode(',', array_slice($foundMatches[0], -2, 2, true));
+                        }
 
                         $posterTag = $dom->find($row, 'td.posterColumn a > img');
-                        $show["poster"] = $posterTag->getAttribute("src");
+                        if ($this->count($posterTag) > 0) {
+                            $show["poster"] = $posterTag->getAttribute("src");
+                        }
                         
                         array_push($response, $show);
                     }
