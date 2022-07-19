@@ -325,6 +325,12 @@ class HtmlPieces
                     foreach ($showsTable as $row)
                     {
                         $show = [];
+                        $show["id"] = "";
+                        $show["title"] = "";
+                        $show["year"] = "";
+                        $show["rating"] = "";
+                        $show["rating_votes"] = "";
+                        $show["poster"] = "";
 
                         $titleTag = $dom->find($row, 'td.titleColumn a');
                         if ($this->count($titleTag) > 0) {
