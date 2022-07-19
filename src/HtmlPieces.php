@@ -347,8 +347,9 @@ class HtmlPieces
                         if ($this->count($ratingTag) > 0) {
                             $show["rating"] = $ratingTag->text;
                             $show["rating_votes"] = $ratingTag->getAttribute("title");
-                            preg_match_all('/([1-9]\d*|0)(,\d+)?/', $show["rating_votes"], $foundMatches);
-                            $show["rating_votes"] = implode(',', array_slice($foundMatches[0], -2, 2, true));
+                            
+                            preg_match_all('/([1-9]\d*|0)(\d+)?/', $show["rating_votes"], $matches);
+                            $show["rating_votes"] = implode('', array_slice($matches[0], 2, count($matches[0])));
                         }
 
                         $posterTag = $dom->find($row, 'td.posterColumn a > img');
