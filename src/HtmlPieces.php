@@ -45,7 +45,16 @@ class HtmlPieces
 
                 return $genres;
                 break;
+            case "type":
+                $type = $dom->find($page, "ul[data-testid=hero-title-block__metadata] li");
 
+                if ($this->count($type) > 0) {
+                    $type = $type[0]->text();
+                    return $type === '' ? 'Movie' : $type;
+                }
+
+                return '';
+                break;
             case "year":
                 $patterns = ["section section div div div ul li a[href*='releaseinfo']", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
                 $year = $this->findMatchInPatterns($dom, $page, $patterns);

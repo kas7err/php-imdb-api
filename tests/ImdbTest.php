@@ -15,6 +15,7 @@ class ImdbTest extends TestCase {
         // die();
         $this->assertEquals('tt0816692', $film['id']);
         $this->assertEquals('Interstellar', $film['title']);
+        $this->assertEquals('Movie', $film['type']);
         $this->assertEquals('Adventure', $film['genres'][0]);
         $this->assertEquals('Drama', $film['genres'][1]);
         $this->assertEquals('Sci-Fi', $film['genres'][2]);

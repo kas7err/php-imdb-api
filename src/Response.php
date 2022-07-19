@@ -70,6 +70,7 @@ class Response
                     "id" => "",
                     "title" => "",
                     "genres" => [],
+                    "type" => "",
                     "year" => "",
                     "length" => "",
                     "plot" => "",

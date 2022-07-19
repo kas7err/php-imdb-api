@@ -96,6 +96,7 @@ class Imdb
         $response->add("id", $filmId);
         $response->add("title", $htmlPieces->get($page, "title"));
         $response->add("genres", $htmlPieces->get($page, "genre"));
+        $response->add("type", $htmlPieces->get($page, "type"));
         $response->add("year", $htmlPieces->get($page, "year"));
         $response->add("length", $htmlPieces->get($page, "length"));
         $response->add("plot", $htmlPieces->get($page, "plot"));
