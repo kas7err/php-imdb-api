@@ -347,7 +347,7 @@ class HtmlPieces
                         if ($this->count($ratingTag) > 0) {
                             $show["rating"] = $ratingTag->text;
                             $show["rating_votes"] = $ratingTag->getAttribute("title");
-                            
+
                             preg_match_all('/([1-9]\d*|0)(\d+)?/', $show["rating_votes"], $matches);
                             $show["rating_votes"] = implode('', array_slice($matches[0], 2, count($matches[0])));
                         }
@@ -361,6 +361,47 @@ class HtmlPieces
                     }
                 }
                 return $response;
+                break;
+            case "actorInfo":
+                
+
+                $actor = [];
+                $actor["name"] = "";
+                $actor["bio"] = "";
+                $actor["poster"] = "";
+                $actor["photos"] = [];
+                $actor["awards"] = "";
+
+                $name = $dom->find($page, "table#name-overview-widget-layout h1.header span");
+                if ($this->count($name) > 0) {
+                    $actor["name"] = $name->text;
+                } 
+
+                $poster = $dom->find($page, "img#name-poster");
+                if ($this->count($poster) > 0) {
+                    $actor["poster"] = $poster->getAttribute("src");
+                } 
+
+                $bio = $dom->find($page, "#name-bio-text .inline");
+                if ($this->count($bio) > 0) {
+                    $actor["bio"] = $bio->text;
+                }
+
+                $photos = $dom->find($page, ".mediastrip a > img");
+                if ($this->count($photos) > 0) {
+                    foreach ($photos as $photo) {
+                        $actor['photos'][] = $photo->outerHtml;
+                    }
+                }
+
+                $awards = $dom->find($page, "span.awards-blurb");
+                if ($this->count($awards) > 0) {
+                    foreach ($awards as $a) {
+                        $actor['awards'] .= $a->text(true);
+                    }
+                }
+
+                return $actor;
                 break;
 
             default:

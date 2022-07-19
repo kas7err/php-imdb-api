@@ -97,6 +97,9 @@ class Response
             case "chart":
                 $response = ["shows" => []];
                 break;
+            case "actor":
+                $response = ["actorInfo" => []];
+                break;
         }
         return $response;
     }

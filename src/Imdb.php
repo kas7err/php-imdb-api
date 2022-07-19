@@ -196,4 +196,29 @@ class Imdb
         return $response->return();
     }
 
+    public function actor(string $actorid, array $options = []): array
+    {
+        //  Combine user options with default ones
+        $options = $this->populateOptions($options);
+
+        //  Initiate response object
+        // -> handles what the api returns
+        $response = new Response;
+
+        //  Initiate dom object
+        //  -> handles page scraping
+        $dom = new Dom;
+
+        //  Initiate html-pieces object
+        //  -> handles finding specific content from the dom
+        $htmlPieces = new HtmlPieces;
+
+
+        //  Load imdb chart page and parse the dom
+        $page = $dom->fetch("https://www.imdb.com/name/".$actorid."/", $options);
+
+        //  Add all search data to response $store
+        $response->add("actorInfo", $htmlPieces->get($page, "actorInfo"));
+        return $response->return();
+    }
 }

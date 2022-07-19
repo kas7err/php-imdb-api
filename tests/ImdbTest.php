@@ -123,9 +123,18 @@ class ImdbTest extends TestCase {
         $this->assertEquals('The Shawshank Redemption', $chart['shows'][0]['title']);
         $this->assertEquals('1994', $chart['shows'][0]['year']);
         $this->assertEquals('9.2', $chart['shows'][0]['rating']);
-        $this->assertEquals('2,611,818', $chart['shows'][0]['rating_votes']);
+        $this->assertEquals('2611818', $chart['shows'][0]['rating_votes']);
         $this->assertEquals('tt0111161', $chart['shows'][0]['id']);
         $this->assertEquals('https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY67_CR0,0,45,67_AL_.jpg', $chart['shows'][0]['poster']);
+    }
+
+    public function testActor()
+    {
+        $imdb = new Imdb;
+        $actor = $imdb->actor('nm0000134', [ 'cache' => false ]);
+        $this->assertEquals('Robert De Niro', $actor['actorInfo']['name']);
+        $this->assertEquals('https://m.media-amazon.com/images/M/MV5BMjAwNDU3MzcyOV5BMl5BanBnXkFtZTcwMjc0MTIxMw@@._V1_UY317_CR13,0,214,317_AL_.jpg', $actor['actorInfo']['poster']);
+        $this->assertEquals('  Won 2 Oscars.   Another 65 wins &amp; 133 nominations. ', $actor['actorInfo']['awards']);
     }
 
 }
