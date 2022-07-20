@@ -390,7 +390,7 @@ class HtmlPieces
                 $photos = $dom->find($page, ".mediastrip a > img");
                 if ($this->count($photos) > 0) {
                     foreach ($photos as $photo) {
-                        $actor['photos'][] = $photo->outerHtml;
+                        $actor['photos'][] = $photo->getAttribute('loadlate');
                     }
                 }
 
