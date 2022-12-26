@@ -32,7 +32,7 @@ class HtmlPieces
 
                 return $this->strClean($title);
                 break;
-                
+
             case "genre":
                 $allGenres = $dom->find($page, "div[data-testid=genres] a");
                 $genres = [];
@@ -202,14 +202,14 @@ class HtmlPieces
                         if ($this->count($castRow->find('img')) === 0) {
                             continue;
                         }
-    
+
                         $actor = [];
                         $actor["actor"] = "";
                         $actor["avatar"] = "";
                         $actor["avatar_hq"] = "";
                         $actor["actor_id"] = "";
                         $actor["character"] = "";
-    
+
                         // Actor
                         $actorLink = $castRow->find('a[data-testid=title-cast-item__actor]');
                         if ($this->count($actorLink)) {
@@ -226,7 +226,7 @@ class HtmlPieces
                                 $actor["avatar_hq"] = preg_match('/\.\_/', $actor["avatar_hq"]) ? preg_split('/\.\_.*/', $actor["avatar_hq"])[0] . ".jpg" : $actor["avatar_hq"];
                             }
                         }
-    
+
                         // Actor ID
                         $link = $castRow->find('a');
                         if ($this->count($link)) {
@@ -236,18 +236,18 @@ class HtmlPieces
                                 $actor["actor_id"] = $matches[0];
                             }
                         }
-    
+
                         // Character
                         $characterLink = $castRow->find('a[data-testid="cast-item-characters-link] span');
                         if ($this->count($characterLink)) {
                             $actor["character"] = $characterLink->text;
                         }
-    
+
                         $actor["character"] = $this->strClean($actor["character"]);
                         $actor["actor"]     = $this->strClean($actor["actor"]);
                         $actor["avatar"]    = $this->strClean($actor["avatar"]);
                         $actor["actor_id"]  = $this->strClean($actor["actor_id"]);
-    
+
                         array_push($cast, $actor);
                     }
                 }
@@ -342,7 +342,7 @@ class HtmlPieces
                         if ($this->count($yearTag) > 0) {
                             $show["year"] = str_replace(['(', ')', ' '], '', $yearTag->text);
                         }
-                        
+
                         $ratingTag = $dom->find($row, 'td.imdbRating strong');
                         if ($this->count($ratingTag) > 0) {
                             $show["rating"] = $ratingTag->text;
@@ -356,14 +356,14 @@ class HtmlPieces
                         if ($this->count($posterTag) > 0) {
                             $show["poster"] = $posterTag->getAttribute("src");
                         }
-                        
+
                         array_push($response, $show);
                     }
                 }
                 return $response;
                 break;
             case "actorInfo":
-                
+
 
                 $actor = [];
                 $actor["name"] = "";
@@ -372,17 +372,17 @@ class HtmlPieces
                 $actor["photos"] = [];
                 $actor["awards"] = "";
 
-                $name = $dom->find($page, "table#name-overview-widget-layout h1.header span");
+                $name = $dom->find($page, "h1 span");
                 if ($this->count($name) > 0) {
                     $actor["name"] = $name->text;
-                } 
+                }
 
-                $poster = $dom->find($page, "img#name-poster");
+                $poster = $dom->find($page, "section.ipc-page-section--baseAlt img");
                 if ($this->count($poster) > 0) {
                     $actor["poster"] = $poster->getAttribute("src");
-                } 
+                }
 
-                $bio = $dom->find($page, "#name-bio-text .inline");
+                $bio = $dom->find($page, 'div[data-testid="bio-content"]');
                 if ($this->count($bio) > 0) {
                     $actor["bio"] = $bio->text;
                 }
@@ -414,7 +414,7 @@ class HtmlPieces
      *
      * @param  object $page
      * @param  array  $patterns
-     * @return string 
+     * @return string
      */
     public function findMatchInPatterns(object $dom, object $page, array $patterns, string $type = "text")
     {
