@@ -384,7 +384,7 @@ class HtmlPieces
 
                 $bio = $dom->find($page, 'div[data-testid="bio-content"]');
                 if ($this->count($bio) > 0) {
-                    $actor["bio"] = $bio->text;
+                    $actor["bio"] = $bio->text();
                 }
 
                 $photos = $dom->find($page, ".mediastrip a > img");
