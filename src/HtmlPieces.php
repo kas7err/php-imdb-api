@@ -19,7 +19,7 @@ class HtmlPieces
      * @param string $element
      * @return string
      */
-    public function get(object $page, string $element)
+    public function get(object $page, string $element, bool $isMeter=false)
     {
         //  Initiate dom object
         //  -> handles page scraping
@@ -320,6 +320,7 @@ class HtmlPieces
             case "shows":
                 $response = [];
                 $showsTable = $dom->find($page, "div[data-testid='chart-layout-main-column'] ul[role='presentation'] li");
+
                 if ($this->count($showsTable) > 0)
                 {
                     foreach ($showsTable as $row)
@@ -335,7 +336,9 @@ class HtmlPieces
                         $titleTag = $dom->find($row, 'a.ipc-title-link-wrapper');
                         if ($this->count($titleTag) > 0) {
                             $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
-                            $show["title"] = substr(strstr($dom->find($titleTag, 'h3')->text," "), 1);
+                            $show["title"] = $isMeter
+                                ? $dom->find($titleTag, 'h3')->text
+                                : substr(strstr($dom->find($titleTag, 'h3')->text," "), 1);
                         }
 
                         $yearTag = $dom->find($row, 'span.cli-title-metadata-item');
@@ -347,6 +350,7 @@ class HtmlPieces
                         if ($this->count($ratingTag) > 0) {
                             $show["rating"] = $ratingTag->text;
                             $show["rating_votes"] = $dom->find($ratingTag, 'span')[0]->text;
+
                             preg_match('!\(([^\)]+)\)!', $show["rating_votes"], $matches);
                             $show["rating_votes"] = isset($matches[1]) ? $matches[1] : null;
                         }

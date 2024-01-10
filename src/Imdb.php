@@ -190,9 +190,9 @@ class Imdb
 
         //  Load imdb chart page and parse the dom
         $page = $dom->fetch($types[$type], $options);
-        
+
         //  Add all search data to response $store
-        $response->add("shows", $htmlPieces->get($page, "shows"));
+        $response->add("shows", $htmlPieces->get($page, "shows", str_contains($type, 'popular')));
         return $response->return();
     }
 
