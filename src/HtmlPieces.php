@@ -337,9 +337,10 @@ class HtmlPieces
                         $titleTag = $dom->find($row, 'a.ipc-title-link-wrapper');
                         if ($this->count($titleTag) > 0) {
                             $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
-                            $show["title"] = $isMeter
+                            $title = $isMeter
                                 ? $dom->find($titleTag, 'h3')->text
                                 : substr(strstr($dom->find($titleTag, 'h3')->text," "), 1);
+                            $show["title"] = $this->strClean($title);
                         }
 
                         $yearTag = $dom->find($row, 'span.cli-title-metadata-item');
