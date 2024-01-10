@@ -10,9 +10,8 @@ class ImdbTest extends TestCase {
     public function testFilm()
     {
         $imdb = new Imdb;
-        $film = $imdb->film('tt0816692', [ 'cache' => false ]);
-        // var_dump($film['cast']);
-        // die();
+        $film = $imdb->film('tt9288030', [ 'cache' => false ]);
+        /* dd($film); */
         $this->assertEquals('tt0816692', $film['id']);
         $this->assertEquals('Interstellar', $film['title']);
         $this->assertEquals('Movie', $film['type']);

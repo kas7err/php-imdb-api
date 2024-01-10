@@ -27,7 +27,7 @@ class HtmlPieces
 
         switch ($element) {
             case "title":
-                $patterns = ["h1[data-testid=hero-title-block__title]", ".title_wrapper h1"];
+                $patterns = ["h1[data-testid='hero__pageTitle'] > span", ".title_wrapper h1"];
                 $title = $this->findMatchInPatterns($dom, $page, $patterns);
 
                 return $this->strClean($title);
@@ -46,10 +46,11 @@ class HtmlPieces
                 return $genres;
                 break;
             case "type":
-                $type = $dom->find($page, "ul[data-testid=hero-title-block__metadata] li");
+                $list = $dom->find($page, "h1[data-testid=hero__pageTitle]")->nextSibling();
+                $listItems = $dom->find($list, "li");
 
-                if ($this->count($type) > 0) {
-                    $type = $type[0]->text();
+                if ($this->count($listItems) > 0) {
+                    $type = $listItems[0]->text();
                     return $type === '' ? 'Movie' : $type;
                 }
 
