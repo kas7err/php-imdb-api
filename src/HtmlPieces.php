@@ -319,7 +319,7 @@ class HtmlPieces
                 break;
             case "shows":
                 $response = [];
-                $showsTable = $dom->find($page, ".lister-list tr");
+                $showsTable = $dom->find($page, "div[data-testid='chart-layout-main-column'] ul[role='presentation'] li");
                 if ($this->count($showsTable) > 0)
                 {
                     foreach ($showsTable as $row)
@@ -332,27 +332,26 @@ class HtmlPieces
                         $show["rating_votes"] = "";
                         $show["poster"] = "";
 
-                        $titleTag = $dom->find($row, 'td.titleColumn a');
+                        $titleTag = $dom->find($row, 'a.ipc-title-link-wrapper');
                         if ($this->count($titleTag) > 0) {
                             $show['id'] = explode('/', $titleTag->getAttribute("href"))[2];
-                            $show["title"] = $titleTag->text;
+                            $show["title"] = substr(strstr($dom->find($titleTag, 'h3')->text," "), 1);
                         }
 
-                        $yearTag = $dom->find($row, 'td.titleColumn span');
+                        $yearTag = $dom->find($row, 'span.cli-title-metadata-item');
                         if ($this->count($yearTag) > 0) {
-                            $show["year"] = str_replace(['(', ')', ' '], '', $yearTag->text);
+                            $show["year"] = $yearTag[0]->text;
                         }
 
-                        $ratingTag = $dom->find($row, 'td.imdbRating strong');
+                        $ratingTag = $dom->find($row, "span[data-testid='ratingGroup--imdb-rating']");
                         if ($this->count($ratingTag) > 0) {
                             $show["rating"] = $ratingTag->text;
-                            $show["rating_votes"] = $ratingTag->getAttribute("title");
-
-                            preg_match_all('/([1-9]\d*|0)(\d+)?/', $show["rating_votes"], $matches);
-                            $show["rating_votes"] = implode('', array_slice($matches[0], 2, count($matches[0])));
+                            $show["rating_votes"] = $dom->find($ratingTag, 'span')[0]->text;
+                            preg_match('!\(([^\)]+)\)!', $show["rating_votes"], $matches);
+                            $show["rating_votes"] = isset($matches[1]) ? $matches[1] : null;
                         }
 
-                        $posterTag = $dom->find($row, 'td.posterColumn a > img');
+                        $posterTag = $dom->find($row, 'img.ipc-image');
                         if ($this->count($posterTag) > 0) {
                             $show["poster"] = $posterTag->getAttribute("src");
                         }
