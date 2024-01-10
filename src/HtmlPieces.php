@@ -46,7 +46,7 @@ class HtmlPieces
                 return $genres;
                 break;
             case "type":
-                $list = $dom->find($page, "h1[data-testid=hero__pageTitle]")->nextSibling();
+                $list = $dom->find($page, "h1[data-testid=hero__pageTitle]")->getParent();
                 $listItems = $dom->find($list, "li");
 
                 if ($this->count($listItems) > 0) {
@@ -59,16 +59,6 @@ class HtmlPieces
             case "year":
                 $patterns = ["section section div div div ul li a[href*='releaseinfo']", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
                 $year = $this->findMatchInPatterns($dom, $page, $patterns);
-
-                // Detect OLD IMDB + TV show
-                // if ($this->count($year) > 4) {
-                //     // Extract year from text
-                //     // \d{4}.\d{4}
-                //     $matchYear = preg_replace("/[^\d{4}--\d{4}]/", "", $year);
-                //     if ($this->count($matchYear) > 0) {
-                //         $year = $matchYear;
-                //     }
-                // }
 
                 return $this->strClean($year);
                 break;
@@ -133,20 +123,24 @@ class HtmlPieces
                 break;
 
             case "trailer":
-                // section section div section section div div div div div a[aria-label^=Watch]
-                // div a[class*=hero-media][aria-label^=Watch]
-                $patterns = ["div a[aria-label^=Watch]", ".slate a[data-video]"];
-                $trailerLinkOld = $dom->find($page, $patterns[1]);
-                $trailerLink = $dom->find($page, $patterns[0]);
+                /* $wrapper = $dom->find($page, "a"); */
+                /* foreach ($wrapper as $anchor) { */
+                /*     if ($anchor->getAttribute('data-testid') != null) { */
+                /*         dump([ */
+                /*             'dataset' => $anchor->getAttribute('data-testid'), */
+                /*             'href' => $anchor->getAttribute('href') */
+                /*         ]); */
+                /*     } */
+                /* } */
+                /* dd(); */
+
+                $trailerLink = $dom->find($page, "a[data-testid=videos-slate-overlay-1]");
+                /* dd($wrapper->getAttribute('href')); */
 
                 if ($this->count($trailerLink)) {
                     $href = $trailerLink->getAttribute("href");
                     preg_match("/\/video\/(vi[a-zA-Z0-9]+)/", $href, $matches);
                     $trailerId = $this->count($matches) > 1 ? $matches[1] : "";
-                    $trailerLink = $this->count($trailerId) ? "https://www.imdb.com/video/".$trailerId : "";
-
-                } elseif ($this->count($trailerLinkOld)) {
-                    $trailerId = $this->count($trailerLinkOld) ? $trailerLinkOld->getAttribute("data-video") : "";
                     $trailerLink = $this->count($trailerId) ? "https://www.imdb.com/video/".$trailerId : "";
                 } else {
                     $trailerId   = "";
